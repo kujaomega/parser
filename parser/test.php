@@ -11,7 +11,6 @@ include_once ( 'basketpc.php' );
 
 
 $connection = new BasketPc();
-echo 'hola<br>';
 $connection->Bkpcplayers();
 
 

@@ -37,9 +37,9 @@ class BasketPc
         $query = <<<'SQL'
 CREATE TABLE IF NOT EXISTS jugadores
 (
-  posicion CHAR(5),
+  posicion STRING,
   altura INT,
-  nombre CHAR(50),
+  nombre STRING,
   id INT,
   edad INT,
   calidad INT,
@@ -69,48 +69,30 @@ SQL;
 
     public function addPlayers()
     {
-        $query =<<<'SQL'
-INSERT INTO
-  jugadores
-  ( posicion,
-  altura,
-  nombre,
-  id,
-  edad,
-  calidad,
-  defensa,
-  tiro3,
-  tiro2,
-  tiro1,
-  velocidad,
-  pase,
-  dribling,
-  rebote,
-  ficha,
-  clausula,
-  contrato
-   )
-VALUES
-  ( :posicion,
-  :altura,
-  :nombre,
-  :id,
-  :edad,
-  :calidad,
-  :defensa,
-  :tiro3,
-  :tiro2,
-  :tiro1,
-  :velocidad,
-  :pase,
-  :dribling,
-  :rebote,
-  :ficha,
-  :clausula,
-  :contrato
-   )
-SQL;
+        $query = <<<'SQL'
+CREATE TABLE IF NOT EXISTS jugadores
+(
+  posicion STRING,
+  altura INT,
+  nombre STRING,
+  id INT,
+  edad INT,
+  calidad INT,
+  defensa INT,
+  tiro3 INT,
+  tiro2 INT,
+  tiro1 INT,
+  velocidad INT,
+  pase INT,
+  dribling INT,
+  rebote INT,
+  ficha INT,
+  clausula INT,
+  contrato INT
 
+)
+
+SQL;
 
 
     }

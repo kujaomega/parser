@@ -2,7 +2,7 @@
 include( 'pegCurlRequest.php');
 
 $username = 'matraca';
-$password = '******';
+$password = '****';
 $loginUrl = 'http://www.basketpc.com/index.php?mod=autentificacion';
 
 //init curl
@@ -32,10 +32,10 @@ $store = curl_exec($ch);
 //the login is now done and you can continue to get the
 //protected content.
 
-//echo '<table>';
+echo '<table>';
 //set the URL to the protected file
 //5649
-for( $i =0; $i <1; ++$i)
+for( $i =0; $i <2; ++$i)
 {
     //echo'<h1> '.$i.'</h1>';
 
@@ -47,19 +47,12 @@ for( $i =0; $i <1; ++$i)
 
     //var_dump($result);
     $result2 = explode ('</tbody>', $result[1]);
-
-    $array_jugadores = htmlspecialchars(strip_tags( $result2[0], '<tr></tr><td></td>'));
-    $array_jugadores =explode('&lt;tr &gt;',$array_jugadores);
-    //echo html_entity_decode($array_jugadores[2]);
-    var_dump($array_jugadores);
-
-    /**
-     * Parsear datos de cada jugador.
-     */
+    var_dump($result2[0]);
+    //explode$result2[0];
 
     //usleep(50000);
 }
-//echo '</table>';
+echo '</table>';
 
 /*
 curl_setopt($ch, CURLOPT_URL, 'http://www.basketpc.com/index.php?mod=busqueda_jugador&pagina=2&orden=&sentido=asc');
