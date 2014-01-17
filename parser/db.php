@@ -123,19 +123,9 @@ class Db
         {
             try
             {
-                if($this->profiler_state)
-                {
-                    $micro_time = microtime( true );
+
                     $this->pdo_statement->execute();
-                    $micro_time = microtime( true ) - $micro_time;
-                    var_dump( $this->pdo_statement );
-                    $query = ob_get_clean();
-                    $this->history = $query.' Takes :'.$micro_time.' ms';
-                }
-                else
-                {
-                    $this->pdo_statement->execute();
-                }
+
             }
             catch ( PDOException $e )
             {

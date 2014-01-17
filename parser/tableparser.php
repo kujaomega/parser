@@ -31,7 +31,7 @@ function file_get_contents_chunked($file,$chunk_size,$callback)
 }
 
 $file = '/home/kujaomega/Escritorio/parser.php.html';
-$contents = file_get_contents_chunked( $file, 5000000,  );
+//$contents = file_get_contents_chunked( $file, 5000000,  );
 echo '<br> hola';
 $hola = explode('<tr>', $contents, 1);
 var_dump( $hola );
