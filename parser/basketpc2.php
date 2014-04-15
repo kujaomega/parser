@@ -15,6 +15,19 @@ include( 'pegCurlRequest.php');
 class BasketPc
 {
     public $db;
+
+    /**
+     * In this variable we safe the base weeks
+     * @var integer
+     */
+    public $base_weeks;
+
+    /**
+     * This is the resource ready for parse
+     * @var resource
+     */
+    public $authenticated_instance;
+
     /**
      * This is the constructor of basketpc.
      */
@@ -186,7 +199,7 @@ VALUES
 SQL;
     }
 
-    public function newPlayers( $user, $pass)
+    public function getAuthentication( $user, $pass)
     {
         $username = $user;
         $password = $pass;
@@ -216,16 +229,10 @@ SQL;
 //execute the request (the login)
         $store = curl_exec($ch);
 
-//the login is now done and you can continue to get the
-//protected content.
-
-//echo '<table>';
-//set the URL to the protected file
-//4547
-
-//intancia basketpc
-//1-1000
-
+        return $ch;
+    }
+    public function newPlayers( $ch)
+    {
 
         for( $i =1; $i <=1000; ++$i)
         {
@@ -330,7 +337,11 @@ SQL;
                 echo '<br>';
                 */
                 //var_dump($array_datos_jugador);
-
+                $semanas = $this->getSemanas( $id , $ch);
+                if($semanas > $this->base_weeks)
+                {
+                    $edad=$edad+1;
+                }
                 $this->addPlayers( $posicion, $altura, $nombre, $id, $edad, $calidad, $defensa, $tiro3, $tiro2, $tiro1, $velocidad, $resistencia, $pase, $dribling, $rebote, $media, $ficha, $clausula, $tiempo_contrato );
             }
             //var_dump($array_jugadores);
@@ -484,46 +495,8 @@ SQL;
         $this->db->execute();
     }
 
-    public function parseyoung($user, $pass)
+    public function parseyoung($ch)
     {
-        $username = $user;
-        $password = $pass;
-        $loginUrl = 'http://www.basketpc.com/index.php?mod=autentificacion';
-
-//init curl
-        $ch = curl_init();
-
-//Set the URL to work with
-        curl_setopt($ch, CURLOPT_URL, $loginUrl);
-
-// ENABLE HTTP POST
-        curl_setopt($ch, CURLOPT_POST, 1);
-
-//Set the post parameters
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 'campo_login='.$username.'&campo_password='.$password);
-
-//Handle cookies for the login
-        curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
-
-//Setting CURLOPT_RETURNTRANSFER variable to 1 will force cURL
-//not to print out the results of its query.
-//Instead, it will return the results as a string return value
-//from curl_exec() instead of the usual true/false.
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-//execute the request (the login)
-        $store = curl_exec($ch);
-
-
-//the login is now done and you can continue to get the
-//protected content.
-
-//echo '<table>';
-//set the URL to the protected file
-//4547
-
-//intancia basketpc
-//1-1000
 
         for( $i =1; $i <=75; ++$i)
         {
@@ -706,6 +679,17 @@ SQL;
 
     }
 
+    public function getActualWeek( $ch )
+    {
+        if($this->base_weeks== NULL)
+        {
+            //semanas jugador kerykos Sosa(id:995714  para calcular edad)
+            $this->base_weeks = $this->getSemanas( '995714', $ch );
+        }
+    }
+    /**
+     * This method drops all the table young players
+     */
     public function dropYPlayers()
     {
         $query =<<<'SQL'
@@ -716,6 +700,9 @@ SQL;
         $this->db->execute();
     }
 
+    /**
+     * This method drops all the table players
+     */
     public function dropPlayers()
     {
         $query =<<<'SQL'

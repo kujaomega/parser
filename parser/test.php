@@ -11,12 +11,14 @@ include_once ( 'basketpc2.php' );
 
 
 $connection = new BasketPc();
-$connection->dropYPlayers();
+//$connection->dropYPlayers();
 $connection->dropPlayers();
 $connection->Bkpcplayers();
-$connection->newyplayers();
-$connection->newPlayers(*****,******);
-$connection->parseyoung(*****,******);
+//$connection->newyplayers();
+$auth = $connection->getAuthentication("******","*******");
+$connection->getActualWeek( $auth );
+$connection->newPlayers( $auth );
+$connection->parseyoung($auth);
 
 
 ?>
