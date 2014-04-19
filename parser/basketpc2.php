@@ -231,6 +231,7 @@ SQL;
 
         return $ch;
     }
+
     public function newPlayers( $ch)
     {
 
@@ -658,18 +659,30 @@ SQL;
     {
         $semanasUrl='http://www.basketpc.com/lib/jugador/ficha_jugador/ver_ficha_jugador.php?id='.$id;
         curl_setopt($ch, CURLOPT_URL, $semanasUrl);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie3.txt');
+        curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie2.txt');
 
 
 //execute the request
         $content = curl_exec($ch);
-
         $result = explode ('Semana:', $content );
+        $result2 = explode ('Week:', $content );
+        if( !isset($result[1])  )
+        {
+            $result = explode ('</li>', $result2[1]);
+            $result=strip_tags($result[0]);
+            $result = trim( $result );
+        }
+        else
+        {
+            $result = explode ('</li>', $result[1]);
+            $result=strip_tags($result[0]);
+            $result = trim( $result );
+        }
 
-        //var_dump($result);
-        $result2 = explode ('</li>', $result[1]);
-        $result2=strip_tags($result2[0]);
-        return $result2;
+
+
+
+        return $result;
 
 
         //$array_jugadores = strip_tags( $result2[0], '<tr></tr><td></td><a></a>');
@@ -681,11 +694,11 @@ SQL;
 
     public function getActualWeek( $ch )
     {
-        if($this->base_weeks== NULL)
-        {
+        //if($this->base_weeks== NULL)
+        //{
             //semanas jugador kerykos Sosa(id:995714  para calcular edad)
             $this->base_weeks = $this->getSemanas( '995714', $ch );
-        }
+        //}
     }
     /**
      * This method drops all the table young players

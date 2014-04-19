@@ -9,16 +9,26 @@
 include_once ( 'basketpc2.php' );
 
 
-
+$parseyoung='N';
+$parseall='Y';
 $connection = new BasketPc();
-//$connection->dropYPlayers();
-$connection->dropPlayers();
-$connection->Bkpcplayers();
-//$connection->newyplayers();
-$auth = $connection->getAuthentication("******","*******");
+$auth = $connection->getAuthentication("****","*******");
 $connection->getActualWeek( $auth );
-$connection->newPlayers( $auth );
-$connection->parseyoung($auth);
+if( $parseyoung == 'Y' )
+{
+    $connection->dropYPlayers();
+    $connection->newyplayers();
+    $connection->parseyoung($auth);
+}
+
+if( $parseall == 'Y' )
+{
+    $connection->dropPlayers();
+    $connection->Bkpcplayers();
+    $connection->newPlayers( $auth );
+}
+
+
 
 
 ?>
